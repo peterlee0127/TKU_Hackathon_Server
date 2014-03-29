@@ -62,9 +62,14 @@ exports.come = function(data, callback) {
 		returnString = 'ok';
 	if (currentClass == null){
 		ClassHistory.findOne({_id:data.class_id}, function(err, result){
-			classTable[data.class_id] = result;
-			currentClass = result;
-			action_new();
+			if (result) {
+				classTable[data.class_id] = result;
+				currentClass = result;
+				action_new();
+			}else{
+				callback('id_wrong');
+			}
+			
 		});
 	}
 	else if(currentClass.lock === false){
