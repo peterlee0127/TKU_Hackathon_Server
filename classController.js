@@ -129,6 +129,7 @@ exports.find_class = function(id, callback){
 exports.start_vote = function(id, callback){
 	var currentClass = classTable[id];
 	if (currentClass.hasOwnProperty('isVote') && currentClass.isVote == true) {
+		console.log('no vote');
 			callback('no');
 	}
 	else{
@@ -137,6 +138,8 @@ exports.start_vote = function(id, callback){
 		currentClass.currentQuestion = new Question({name:order});
 		currentClass.count = {a:0,b:0, c:0, d:0};
 		callback(order);
+		console.log('vote '+order);
+
 	}
 	
 };
@@ -161,6 +164,26 @@ exports.voting = function(data, callback) {
 	callback('not ok');	
 	}
 };
+
+exports.end_vote = function(data, callback) {
+	var currentClass = classTable[data.class_id],
+		returnString = 'ok';
+
+	if (currentClass.lock ===false&& 
+		currentClass.hasOwnProperty('isVote') &&
+		currentClass.isVote === true){
+		currentClass.isVote = false;
+		var query = {_id:currentClass._id};
+		currentClass.question_list.push(currentClass.currentQuestion);
+		var update = {$push:{'question_list':currentClass.currentQuestion}};		
+		ClassHistory.update(query, update, function(err, result){
+			callback(result.question_list, currentClass.count);
+		});
+	} 
+	else{
+		callback('not ok');
+	}		
+};
 exports.vote_result_list = function(data, callback){
 	var list = [];
 	ClassHistory.findOne({_id:data}, function(err, result){
@@ -179,21 +202,4 @@ exports.vote_result_list = function(data, callback){
 		}
 		callback(list);
 	});
-};
-exports.end_vote = function(data, callback) {
-	var currentClass = classTable[data.class_id],
-		returnString = 'ok';
-
-	if (currentClass.lock ===false&& 
-		currentClass.hasOwnProperty('isVote') &&
-		currentClass.isVote === true){
-		var query = {_id:currentClass._id};
-		var update = {$push:{'question_list':currentClass.currentQuestion}};		
-		ClassHistory.update(query, update, function(err, result){
-			callback(result.question_list, currentClass.count);
-		});
-	} 
-	else{
-		callback('not ok');
-	}		
 };
