@@ -18,29 +18,33 @@ $(window).resize(function(){
 
 function observe_overflow()
 {
+    var current_height = $(window).height();
     var current_width = $(window).width();
+    $(".middle_container").css("height", current_height-$(".navbar").height()-$(".table").height()-10);
     if(current_width<1200)
     {
         $(".middle_container").css({
-            "height": "300px",
             "overflow-y": "scroll",
-            "overflow-x": "scroll"
+            "overflow-x": "hidden"
         });
         $(".table_container").css({
             "bottom": "0"
         });
+        $(".header_style").hide();
         $(".customer_counter").hide();
         $(".footer").hide();
     }
     else
     {
+        $(".middle_container").css("height", $(".left_box").height());
         $(".middle_container").css({
             "height":"auto",
             "overflow": "inherit"
         });
         $(".table_container").css({
-            "bottom": "45"
+            "bottom": "45px"
         });
+        $(".header_style").show();
         $(".customer_counter").show();
         $(".footer").show();
     }

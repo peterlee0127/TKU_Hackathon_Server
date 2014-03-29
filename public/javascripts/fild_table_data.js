@@ -1,14 +1,24 @@
 fixVoteresult(json);
-addStudent();
-function addStudent()
-{
+addStudent(json);
+
+function addStudent(json)
+{   
+    var str;
     for (var i = json.student_list.length-1; i>=0; i--)
     {
+        if(json.student_list[i].come)
+        {
+            str = "有到";
+        }
+        else
+        {
+            str = "未到";
+        }
         var nameANDhere = $('<tr id="' + json.student_list[i].stu_id+ '">'+
                                 '<td>'+ json.student_list[i].name + '</td>'+
                                 '<td>'+ 
                                     '<a onclick="force_change_come('+json.student_list[i].stu_id+')">'+
-                                    '<div>'+json.student_list[i].come + '</div>'
+                                    '<div>'+ str + '</div>'
                                     +'</a></td>'
                             +'</tr>');
         $('tbody').append(nameANDhere);
@@ -18,13 +28,13 @@ function force_change_come(id)
 {
     socket.emit('force_change_Come', {'stu_id':id});
     var  come = $('#'+id+' td a').html();
-    if ((come === "true"))
+    if ((come === "有到"))
     {
-        $('#'+id+' td a').html('false');
+        $('#'+id+' td a').html('未到');
     }
     else 
     {
-        $('#'+id+' td a').html('true');
+        $('#'+id+' td a').html('有到');
     }
 }
 function addAnswerTitle(data)
@@ -75,9 +85,10 @@ function fixVoteresult(data)
 socket.on('start_vote', addAnswerTitle);
 socket.on('voting', addAnswer);
 
-socket.on('addmeRES', function(data){
-    $('#'+data.stu_id+' td a div').html('true');
+socket.on('addme_res', function(data){
+    alert("yes");
+    $('#'+data.stu_id+' td a div').html('有到');
 });
-socket.on('notcome', function(data){
-    $('#'+data.stu_id+' td a div').html('false');
+socket.on('not_come', function(data){
+    $('#'+data.stu_id+' td a div').html('未到');
 });
