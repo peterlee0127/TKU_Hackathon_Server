@@ -1,7 +1,7 @@
 var socket = io.connect('http://localhost:3000');
 var since = getDateTime();
 socket.on('connect', function() {
-
+    socket.emit('addme', {'stu_id':'admin', 'class_id':json._id});
 });
 
 socket.on('listenChat',function(data) {

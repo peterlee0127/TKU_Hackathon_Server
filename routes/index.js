@@ -22,8 +22,6 @@ exports.login = function(req, res){
 */
 exports.newClass = function(req, res){
 	classController.new_class(req.body, function(result){
-		console.log(result);
-
 		res.json(result);
 	});
 };
