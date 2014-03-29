@@ -7,6 +7,7 @@ var mongoose = require('mongoose'),
 	;
 
 exports.new_class = function (data, callback) {
+    console.log(data);
 	var new_class = new ClassHistory(data);
 	fs.readFile('./student.json', function(err, string){
 		if (err){

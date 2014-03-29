@@ -23,7 +23,7 @@ exports.login = function(req, res){
 exports.newClass = function(req, res){
 	classController.new_class(req.body, function(result){
 		classController.class_list(function(result){
-			res.end(results);
+			res.end(result);
 		});
 	});
 };
