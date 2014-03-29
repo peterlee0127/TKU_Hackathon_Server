@@ -2,6 +2,7 @@ var mongoose = require('mongoose'),
 	fs = require('fs'),
 	ClassHistory = mongoose.model('ClassHistory'),
 	Student = mongoose.model('Student'),
+	Question = mongoose.model('Question'),
 	classTable = {}
 	;
 
@@ -69,7 +70,6 @@ exports.class_list = function(callback) {
 
 exports.find_class = function(id, callback){
 	ClassHistory.findOne({_id:id}, function(err, result){
-		console.log(result);
 		classTable[id] = result;
 		callback(result);
 	});
@@ -78,10 +78,9 @@ exports.find_class = function(id, callback){
 exports.start_vote = function(id, callback){
 	var currentClass = classTable[id];
 	currentClass.isVote = true;
-	currentClass.currentQuestion = [];
 	var order = currentClass.question_list.length +1;
+	currentClass.currentQuestion = new Question({name:'ans'+order});
 	callback(order);
-	console.log('haha');
 };
 
 exports.voting = function(data, callback) {
@@ -89,12 +88,14 @@ exports.voting = function(data, callback) {
 		returnString = 'ok',
 		answer = {stu_id:data.stu_id, answer:data.answer};
 
-	if (currentClass.lock && 
+	if (currentClass.lock ===false&& 
 		currentClass.hasOwnProperty('isVote') &&
-		currentClass.isVote === true) callback('not ok');
-	else{
-		currentClass.currentQuestion.push(answer);
+		currentClass.isVote === true){
+		currentClass.currentQuestion.answer.push(answer);
 		callback(answer);
+	} 
+	else{
+	callback('not ok');	
 	}
 };
 
@@ -105,7 +106,7 @@ exports.end_vote = function(data, callback) {
 	if (currentClass.lock ===false&& 
 		currentClass.hasOwnProperty('isVote') &&
 		currentClass.isVote === true){
-		var query = {_id:currentClass._id, 'student_list.stu_id':data.stu_id};
+		var query = {_id:currentClass._id};
 		var update = {$push:{'question_list':currentClass.currentQuestion}};		
 		ClassHistory.update(query, update, function(err, result){
 			callback(result.question_list);
