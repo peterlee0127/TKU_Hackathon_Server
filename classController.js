@@ -63,7 +63,11 @@ exports.lock_class = function(data, callback){
 };
 exports.student_list = function(data, callback) {
 	ClassHistory.findOne({_id:data}, function(err, result){
-		callback(result.student_list);
+		if (result) {
+				callback(result.student_list);	
+		}
+		else
+			callback([]);
 	});
 };
 exports.come = function(data, isCome,callback) {
@@ -115,7 +119,7 @@ exports.class_list = function(callback) {
 	}
 		
 	}, function(err, result){
-		callback(result);
+		callback(result.reverse());
 	});
 };
 
