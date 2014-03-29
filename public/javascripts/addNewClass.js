@@ -13,7 +13,7 @@ function add_Class()
     $.ajax({
         type: "POST",
         url: "http://localhost:3000/api/newClass",
-        data: "&class_name="+name+"&class_room="+room+"class_time="+time,
+        data: "&class_name="+name+"&class_room="+room+"&class_time="+time,
         dataType:'json'
     });
 }

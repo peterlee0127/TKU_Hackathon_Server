@@ -152,14 +152,3 @@ tbody td:nth-child(n+3), thead th:nth-child(n+3)
     background-color: #A48C60;
     height: 40px;
 }
-
-/*class_table*/
-.class_table
-{
-    margin-top: 3%;
-}
-.class_table_header
-{
-    background-color: #373F49;
-    color: white;
-}
