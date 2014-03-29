@@ -56,6 +56,9 @@ app.get('/client', function(req, res){
 	res.render('client', {});
 });
 app.get('/course', routes.course);
+app.get('/course', function(req, res){
+	res.render('newClass1',{});
+});
 
 var server =  http.createServer(app).listen(app.get('port'), function(){
   console.log('Express server listening on port ' + app.get('port'));
