@@ -6,8 +6,6 @@ var classController = require('../classController.js');
 exports.index = function(req, res){
   res.render('index', { title: 'Express' });
 };
-
-
 /*
 	class_name : String,
 	class_room : String,
@@ -25,9 +23,14 @@ exports.newClass = function(req, res){
 		});
 	});
 };
+exports.classPage = function(req, res){
+	classController.find_class(req.params.id, function(result){
+		res.render('index', {json : JSON.stringify(result) });
+	});
+};
 exports.course = function(req, res) {
 	classController.class_list(function(result){
-		res.render('newClass', {'json':result});
+		res.render('newClass', { json:JSON.stringify(result) });
 	});
 };
 exports.class_List = function(req, res) {
