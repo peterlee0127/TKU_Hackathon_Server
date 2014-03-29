@@ -7,6 +7,7 @@ exports.connect = function (socket) {
 			if (string == 'ok') {
 				socket.join(obj.class_id);
 			}
+			socket.broadcast.to(obj.class_id).emit('come', obj);
 			socket.emit('addme_res', string);
 			user_socket_table[socket] = obj;
 		});

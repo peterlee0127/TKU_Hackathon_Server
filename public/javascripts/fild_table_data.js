@@ -89,9 +89,9 @@ function change_chart_of_vote(order){
 socket.on('start_vote', addAnswerTitle);
 socket.on('voting_res', addAnswer);
 
-socket.on('addme_res', function(data){
+socket.on('come', function(data){
     $('#'+data.stu_id+' td a div').html('true');
 });
-socket.on('notcome', function(data){
+socket.on('not_come', function(data){
     $('#'+data.stu_id+' td a div').html('false');
 });
