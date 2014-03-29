@@ -16,4 +16,10 @@ exports.connect = function (socket) {
 			socket.broadcast.to(obj.class_id).emit('start_vote', {});
 		});
 	});
+
+	socket.on('voting', function(obj) {//stu_id, class_id, answer
+		classController.voting(obj, function(){
+
+		});
+	});
 };

@@ -36,7 +36,7 @@ exports.new_class = function (data, callback) {
 exports.come = function(data, callback) {
 	var currentClass = classTable[data.class_id],
 		returnString = 'ok';
-
+	if (currentClass === null) return;
 	if (currentClass.lock) callback('not ok');
 	for (var i = currentClass.student_list.length - 1; i >= 0; i--) {
 		if(currentClass.student_list[i].lock === false&&currentClass.student_list[i].stu_id === data.stu_id) {
@@ -66,6 +66,7 @@ exports.class_list = function(callback) {
 exports.find_class = function(id, callback){
 	ClassHistory.findOne({_id:id}, function(err, result){
 		console.log(result);
+		classTable[id] = result;
 		callback(result);
 	});
 };
@@ -73,26 +74,35 @@ exports.find_class = function(id, callback){
 exports.start_vote = function(id, callback){
 	var currentClass = classTable[id];
 	currentClass.isVote = true;
-
+	currentClass.currentQuestion = [];
 	callback();
 
 };
 
 exports.voting = function(data, callback) {
-var currentClass = classTable[data.class_id],
+	var currentClass = classTable[data.class_id],
+		returnString = 'ok',
+		answer = {stu_id:data.stu_id, answer:data.answer};
+
+	if (currentClass.lock && 
+		currentClass.hasOwnProperty('isVote') &&
+		currentClass.isVote === true) callback('not ok');
+	else{
+		currentClass.currentQuestion.push(answer);
+		callback(returnString);
+	}
+};
+
+exports.end_vote = function(data, callback) {
+	var currentClass = classTable[data.class_id],
 		returnString = 'ok';
 
-	if (currentClass.lock) callback('not ok');
-	for (var i = currentClass.student_list.length - 1; i >= 0; i--) {
-		if(currentClass.student_list[i].lock === false&&
-			currentClass.student_list[i].stu_id === data.stu_id) {
-
-			currentClass.student_list[i].come = true;
-			returnString = 'ok';
-		}
-	}
+	if (currentClass.lock && 
+		currentClass.hasOwnProperty('isVote') &&
+		currentClass.isVote === true) callback('not ok');
+	else{
 	var query = {_id:currentClass._id, 'student_list.stu_id':data.stu_id};
-	var update = {$set:{'student_list.$.come':true}};
-	ClassHistory.update(query, update, function(){});
-	callback(returnString);
+	var update = {$push:{'question_list':currentClass.currentQuestion}};		
+	ClassHistory.update(query, update, function(err, result){});
+	}		
 };

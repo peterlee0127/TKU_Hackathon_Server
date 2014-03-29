@@ -2,7 +2,19 @@
 <html>
 <head>
 	<title>client test</title>
-	
+	<script src="/javascripts/socket.io.min.js"></script>
+	<script type="text/javascript">
+	var socket = io.connect('http://localhost:3000');
+	socket.on('connect',function () {
+		socket.emit('addme', {
+			"class_id":"533635f23394382af8f2f010",
+			"stu_id":"499410743"
+		});
+	});
+	socket.on('addme_res', function(obj){
+		alert(obj);
+	});
+	</script>
 </head>
 <body>
 
