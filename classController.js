@@ -34,6 +34,24 @@ exports.new_class = function (data, callback) {
 		});
 	});
 };
+exports.lock_student = function(data, callback){//class_id, stu_id
+	var currentClass = classTable[data.class_id];
+
+	for (var i = currentClass.student_list.length - 1; i >= 0; i--) {
+		if(currentClass.student_list[i].stu_id === data.stu_id){
+			currentClass.student_list[i].lock = true;
+			var query = {_id:currentClass._id, 'student_list.stu_id':data.stu_id};
+			var update = {$set:{'student_list.$.come':true}};
+			ClassHistory.update(query, update, function(){});
+			callback(returnString);
+			break;
+		}
+	}
+};
+
+exports.lock_class = function(data, callback){
+	classTable[data.class_id].lock = true;
+};
 exports.student_list = function(data, callback) {
 	ClassHistory.findOne({_id:data}, function(err, result){
 		callback(result.student_list);
@@ -44,13 +62,18 @@ exports.come = function(data, callback) {
 		returnString = 'ok';
 	if (currentClass == null){
 		ClassHistory.findOne({_id:data.class_id}, function(err, result){
-			classTable[data.class_id] = result;
-			currentClass = result;
-			action_new();
+			if (result) {
+				classTable[data.class_id] = result;
+				currentClass = result;
+				action_new();
+			}else{
+				callback('id_wrong');
+			}
+			
 		});
 	}
 	else if(currentClass.lock === false){
-	action_new();
+		action_new();
 	}
 	function action_new(){
 			for (var i = currentClass.student_list.length - 1; i >= 0; i--) {
