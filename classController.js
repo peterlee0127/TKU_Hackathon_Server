@@ -33,7 +33,11 @@ exports.new_class = function (data, callback) {
 		});
 	});
 };
-
+exports.student_list = function(data, callback) {
+	ClassHistory.findOne({_id:data}, function(err, result){
+		callback(result.student_list);
+	});
+};
 exports.come = function(data, callback) {
 	var currentClass = classTable[data.class_id],
 		returnString = 'ok';

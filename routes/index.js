@@ -6,21 +6,30 @@ var classController = require('../classController.js');
 exports.index = function(req, res){
   res.render('index', { title: 'Express' });
 };
+exports.login = function(req, res){
+	console.log(req.body);
+	if (req.body.hasOwnProperty('email')&&
+		req.body.email == 'admin@admin') {
+		res.redirect('/course');
+	}else
+		res.redirect('/login');
+
+};
 /*
 	class_name : String,
 	class_room : String,
 	class_time : String,
 */
 exports.newClass = function(req, res){
-	// req.body = {
-	// 	class_name : '微積分',
-	// 	class_room : 'E405',
-	// 	class_time : 'Friday',
-	// };
 	classController.new_class(req.body, function(result){
 		classController.class_list(function(result){
-			res.redirect('/course');
+			res.end(results);
 		});
+	});
+};
+exports.student_list = function(req, res) {
+	classController.student_list(req.params.id, function(result){
+		res.json(result);
 	});
 };
 exports.classPage = function(req, res){
