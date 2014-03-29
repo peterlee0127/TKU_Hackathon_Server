@@ -49,6 +49,13 @@ if ('development' == app.get('env')) {
 }
 
 app.get('/', routes.index);
+app.get('/api/beacon', function(req,res){
+	var fs = require('fs');
+	fs.readFile('./beacon.json', function(err, string){
+		var json = JSON.parse(string);
+		res.json(json);
+	})
+});
 app.post('/api/newClass', routes.newClass);
 app.get('/api/list', routes.class_List);
 app.get('/api/class/:id', routes.find_Class);
