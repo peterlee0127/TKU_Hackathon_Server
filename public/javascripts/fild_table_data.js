@@ -59,9 +59,9 @@ function fixVoteresult(data)
             var isAnswer = false;
             for (var j = data.question_list.length - 1; j >= 0; j--) {
             isAnswer = false;
-            for (var k = data.question_list[j].answers.length - 1; k >= 0; k--) {
-                if (data.question_list[j].answers[k].stu_id == id) {
-                    stu_answers.push(data.question_list[j].answers[k].answer);
+            for (var k = data.question_list[j].answer.length - 1; k >= 0; k--) {
+                if (data.question_list[j].answer[k].stu_id == id) {
+                    stu_answers.push(data.question_list[j].answer[k].answer);
                     isAnswer = true;
                 }
             }
