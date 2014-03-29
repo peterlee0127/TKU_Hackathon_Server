@@ -77,7 +77,7 @@ function fixVoteresult(data)
 (function(){
     for (var i = json.question_list.length - 1; i >= 0; i--) {
         addAnswerTitle(json.question_list[i]);
-        for (var j = json.question_list[i].answer.length - 1; i >= 0; j--) {
+        for (var j = json.question_list[i].answer.length - 1; j >= 0; j--) {
            addAnswer( json.question_list[i].answer[j]);
         }
     }

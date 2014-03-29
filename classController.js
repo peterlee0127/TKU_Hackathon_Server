@@ -41,7 +41,7 @@ exports.lock_student = function(data){//class_id, stu_id
 		if(currentClass.student_list[i].stu_id == data.stu_id){
 			currentClass.student_list[i].lock = true;
 			var query = {_id:currentClass._id, 'student_list.stu_id':data.stu_id};
-			var update = {$set:{'student_list.$.come':true}};
+			var update = {$set:{'student_list.$.come':!currentClass.student_list[i].come}};
 			ClassHistory.update(query, update, function(){});
 			break;
 		}
@@ -144,21 +144,21 @@ exports.vote_result_list = function(data, callback){
 	var list = [];
 	ClassHistory.findOne({_id:data}, function(err, result){
 		for (var i = result.question_list.length - 1; i >= 0; i--) {
-			  var a=0,b=0,c=0,d=0;
+			var a=0,b=0,c=0,d=0;
 			for (var j = result.question_list[i].answer.length - 1; j >= 0; j--) {
 				switch(result.question_list[i].answer[j].answer)
-			      {
-			        case 'A':a++;break;
-			        case 'B':b++;break;
-			        case 'C':c++;break;
-			        case 'D':d++;break;
-			      }
-			};
+			{
+			    case 'A':a++;break;
+			    case 'B':b++;break;
+			    case 'C':c++;break;
+			    case 'D':d++;break;
+			    }
+			}
 			list.push({order:result.question_list[i].name, a:a, b:b, c:c, d:d});
-		};
+		}
 		callback(list);
 	});
-}
+};
 exports.end_vote = function(data, callback) {
 	var currentClass = classTable[data.class_id],
 		returnString = 'ok';
