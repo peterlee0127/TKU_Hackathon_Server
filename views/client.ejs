@@ -11,12 +11,11 @@
 			"class_id":id,
 			"stu_id":"499850070"
 		});
-		socket.emit('chat', {stu_id:"499410743", message:"haha"})
+		// socket.emit('chat', {stu_id:"499410743", message:"haha"})
 	});
 	socket.on('addme_res', function(obj){
 	});
 	socket.on('start_vote', function(obj){
-		alert(obj.class_id);
 	});
 	function send_vote (form) {
 		for (Count = 0; Count < 4; Count++) {
