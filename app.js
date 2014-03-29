@@ -67,6 +67,7 @@ app.get('/api/beacon', function(req,res){
 app.post('/api/login', routes.login);
 app.post('/api/newClass', routes.newClass);
 app.get('/api/list', routes.class_List);
+app.get('/api/vote_result_list/:id', routes.vote_result_list);
 app.get('/api/class/:id', routes.find_Class);
 app.get('/api/class/:id/student_list', routes.student_list);
 app.get('/client/:id', function(req, res){
