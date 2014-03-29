@@ -45,8 +45,113 @@ html,body
     background-color: #E6735C;
 }
 
-/*middle_container*/
 
+.middle_container
+{
+    margin-left: 10px;
+    margin-right: 10px;
+}
+/*chat_box*/
+.chat_box
+{
+    height: 150px;
+    overflow: scroll;
+}
+.chat_box_inner
+{
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+.chat_id
+{
+    color: rgb(85, 149, 92);
+}
+.chat_box_inner li
+{
+    border-bottom: 1px solid rgb(182, 222, 186);
+    margin-bottom: 10px;
+}
+/*chart*/
+.bar {
+  fill: steelblue;
+}
+.bar:hover {
+  fill: brown;
+}
+.axis {
+  font: 10px sans-serif;
+}
+.axis path,
+.axis line {
+  fill: none;
+  stroke: #000;
+  shape-rendering: crispEdges;
+}
+.x.axis path {
+  display: none;
+}
+.table_container
+{
+    position: absolute;
+    width: 100%;
+    height: 160px;
+    bottom: 45px;
+    overflow-y: hidden;
+}
+.table_header
+{
+    background-color: #373F49;
+    color: white;
+}
+table 
+{
+    width: 100%;
+}
+thead, tbody, tr, td, th { display: block; }
+tr:after
+{
+    content: ' ';
+    display: block;
+    visibility: hidden;
+    clear: both;
+}
+thead th 
+{
+    height: 30px;
+}
+tbody
+{
+    height: 130px;
+    overflow-y: auto;
+}
+tbody td:nth-child(1), thead th:nth-child(1) 
+{
+    width: 14%;
+    float: left;
+}
+tbody td:nth-child(2), thead th:nth-child(2)
+{
+    width: 11%;
+    float: left;
+    text-align: center;
+}
+tbody td:nth-child(n+3), thead th:nth-child(n+3)
+{
+    width: 3%;
+    float: left;
+    text-align: center;
+}
+/*footer*/
+.footer
+{
+    position: absolute;
+    right: 0;
+    left: 0;
+    bottom: 0;
+    background-color: #A48C60;
+    height: 40px;
+}
 
 /*class_table*/
 .class_table

@@ -1,11 +1,109 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <title><%= title %></title>
-    <link rel='stylesheet' href='/stylesheets/style.css' />
-  </head>
-  <body>
-    <h1><%= title %></h1>
-    <p>Welcome to <%= title %></p>
-  </body>
+    <head lang="en">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Main Page</title>
+        <!--Add local css-->
+        <link href="./stylesheets/style.css" type="text/css" rel="stylesheet">
+        <!--Add jQuery-->
+        <script src="./javascripts/jquery.js"></script>
+        <!--Add bootstrap library-->
+        <script src="./lib/bootstrap-3.1.1/dist/js/bootstrap.min.js" type="text/javascript"></script>
+        <link href="./lib/bootstrap-3.1.1/less/bootstrap.less" type="text/css" rel="stylesheet/less">
+        <!--Add css compiler-->
+        <script src="./lib/less.js-master/dist/less-1.7.0.js"></script>
+    </head>
+    <body>
+        <div class="wrapper">
+            <div class="header_style"></div>
+            
+            <!--navigationbar-->
+            <nav class="navbar navbar-static-top navbar_style" role="navigation">
+                <div class="customer_counter"></div>
+                <ul class="nav navbar-nav navbar-right">
+                    <li><a href="/logout">Logout</a></li>
+                </ul>
+            </nav>
+            
+            <!--chatbar & chartbar-->
+            <section>
+                <div class="middle_container">
+                    <div class="row">
+                        <!--chat_box-->
+                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-4 left_box">
+                            <div class="panel panel-success">
+                                <div class="panel-heading">
+                                    chat
+                                    <span class="glyphicon glyphicon-comment"></span>
+                                </div>
+                                <div class="panel-body chat_box" id="chat_box_outer">
+                                    <ul class="chat_box_inner" id="ListenChat">
+                                        <li class="other_chat">
+                                            <div class="chat-body clearfix">
+                                                <div class="chat_id">                                                                                   <strong class="primary-font chat_name">KFC</strong>
+                                                <small class="pull-right text-muted">
+                                                        <span class="glyphicon glyphicon-time"></span>12 mins ago
+                                                    </small>
+                                                </div>
+                                                <p>hellow MOS</p>
+                                            </div>
+                                        </li>
+                                        <li class="my_chat">
+                                            <div class="chat-body clearfix">
+                                                <div class="chat_id">
+                                                <small class=" text-muted">
+                                                    <span class="glyphicon glyphicon-time"></span>13 mins ago
+                                                    </small>
+                                                    <strong class="pull-right primary-font">Me</strong>
+                                                </div>
+                                                <p>  hi!</p>
+                                            </div>
+                                        </li>
+                                    </ul>
+                                </div>
+                                <div class="panel-footer chat_message_input">
+                                    <div class="input-group">
+                                        <input id="btn-input" type="text" class="form-control input-sm" placeholder="Type your message here...">
+                                        <span class="input-group-btn">
+                                            <button class="btn btn-warning btn-sm" id="btn-chat">
+                                                Send</button>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!--chart_box-->
+                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-8">
+                            <div class="chart_box"></div>
+                        </div>
+                        
+                    </div>
+                </div>
+            </section>
+            
+            <!--dataTable-->
+            <section>
+                <div class="table_container">
+                    <div class="table_title"></div>
+                    <table class="table table-condensed">
+                        <thead>
+                            <tr class="table_header">
+                                <th>name</th>
+                                <th>here</th>
+                                <!-- <th>a1</th> -->
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
+            </section>
+            
+            <!--footer-->
+            <div class="footer"></div>
+        </div>
+        <script src="./javascripts/change_size.js" type="text/javascript"></script>
+        <script src="./javascripts/d3.v3.min.js"></script>
+        <script src="./javascripts/chart.js" type="text/javascript"></script>
+        <script src="./javascripts/fild_table_data.js" type="text/javascript"></script>
+    </body>
 </html>
