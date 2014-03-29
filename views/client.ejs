@@ -11,6 +11,7 @@
 			"class_id":id,
 			"stu_id":"499410043"
 		});
+		socket.emit('chat', {stu_id:"499410743", message:"haha"})
 	});
 	socket.on('addme_res', function(obj){
 		alert(obj);
