@@ -28,8 +28,13 @@ exports.connect = function (socket) {
 	});
 
 	socket.on('end_vote', function(obj){//class_id
-		classController.end_vote(obj, function(){
-			socket.broadcast.to(obj.class_id).emit('vote_result', {});
+		classController.end_vote(obj, function(result, count){
+			console.log(count);
+			socket.broadcast.to(obj.class_id).emit('vote_result', count);
 		});
+	});
+
+	socket.on('chat', function(obj){//stu_id, message, class_id
+		socket.broadcast.to(obj.class_id).emit('listen_chat', obj);
 	});
 };

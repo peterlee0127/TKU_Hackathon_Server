@@ -80,6 +80,9 @@ exports.start_vote = function(id, callback){
 	currentClass.isVote = true;
 	var order = currentClass.question_list.length +1;
 	currentClass.currentQuestion = new Question({name:'ans'+order});
+	currentClass.count = {a:0,b:0, c:0, d:0};
+	
+
 	callback(order);
 };
 
@@ -87,6 +90,11 @@ exports.voting = function(data, callback) {
 	var currentClass = classTable[data.class_id],
 		returnString = 'ok',
 		answer = {stu_id:data.stu_id, answer:data.answer};
+
+	if (data.answer == 'A') currentClass.count.a++;
+	else if (data.answer == 'B') currentClass.count.b++;
+	else if (data.answer == 'C') currentClass.count.c++;
+	else if (data.answer == 'D') currentClass.count.d++;
 
 	if (currentClass.lock ===false&& 
 		currentClass.hasOwnProperty('isVote') &&
@@ -109,7 +117,7 @@ exports.end_vote = function(data, callback) {
 		var query = {_id:currentClass._id};
 		var update = {$push:{'question_list':currentClass.currentQuestion}};		
 		ClassHistory.update(query, update, function(err, result){
-			callback(result.question_list);
+			callback(result.question_list, currentClass.count);
 		});
 	} 
 	else{
