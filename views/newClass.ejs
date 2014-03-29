@@ -12,9 +12,6 @@
         <link href="./lib/bootstrap-3.1.1/less/bootstrap.less" type="text/css" rel="stylesheet/less">
         <!--Add css compiler-->
         <script src="./lib/less.js-master/dist/less-1.7.0.js"></script>
-        <!--Add new class-->
-        <script src="./javascripts/addNewClass.js" type="text/javascript"></script>
-
     </head>
     <body>
         <div class="wrapper">
@@ -36,15 +33,17 @@
                     <input id="room" type="text" class="form-control input-sm" placeholder="class_room" style="width:33.2%">
                     <input id="time" type="text" class="form-control input-sm" placeholder="class_time" style="width:33.2%">
                     <span class="input-group-btn">
-                    <button class="btn btn-warning btn-sm" id="btn-chat" onclick="add_Class()">Send</button>
+                    <button class="btn btn-warning btn-sm" id="btn-chat" onclick="do_POST()">Send</button>
                     </span>
                 </div>
             </div>
         </div>
     </body>
+    <!--Add new class-->
+    <script src="./javascripts/addNewClass.js" type="text/javascript"></script>
     <script>
         var all_class_string = '<%- json%>';
         var all_class_json = JSON.parse(all_class_string);
         init_class_list(all_class_json);
-        </script>
+    </script>
 </html>
