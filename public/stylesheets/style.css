@@ -1,8 +1,60 @@
-body {
-  padding: 50px;
-  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+@import url("//netdna.bootstrapcdn.com/bootstrap/3.0.0-rc2/css/bootstrap-glyphicons.css");
+html,body
+{
+    min-height: 100%;
+    height: 100%;
+    background-color: #EFEBD6;
+    overflow: hidden;
+}
+.wrapper
+{
+    position: relative;
+    background-color: #EFEBD6 ;
+    width: 100%;
+    height: 100%;
+}
+/*header*/
+.header_style
+{
+    background-color: #76AADB;
+    height: 50px;
 }
 
-a {
-  color: #00B7FF;
+
+/*navigation_bar*/
+.navbar_style
+{
+    background-color: #373F49;
+}
+.navbar-nav
+{
+    text-decoration-style: solid;
+    padding-right: 15px;
+}
+.navbar-nav li a
+{
+    text-align: center;
+    color: white;
+}
+.customer_counter
+{
+    position: absolute;
+    margin-left: 5%;
+    width: 150px;
+    height: 60px;
+    background-color: #E6735C;
+}
+
+/*middle_container*/
+
+
+/*class_table*/
+.class_table
+{
+    margin-top: 3%;
+}
+.class_table_header
+{
+    background-color: #373F49;
+    color: white;
 }
