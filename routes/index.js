@@ -10,6 +10,8 @@ exports.login = function(req, res){
 	console.log(req.body);
 	if (req.body.hasOwnProperty('email')&&
 		req.body.email == 'admin@admin') {
+		req.session.user = 'admin';
+
 		res.redirect('/course');
 	}else
 		res.redirect('/login');
@@ -45,7 +47,11 @@ exports.class_List = function(req, res) {
 		res.json(result);
 	});
 };
-
+exports.vote_result_list = function(req, res){
+	classController.vote_result_list(req.params.id, function(result){
+		res.json(result);
+	});
+};
 exports.find_Class = function(req, res){
 	var id = req.params.id;
 	if (id) {

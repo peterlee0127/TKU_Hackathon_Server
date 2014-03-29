@@ -34,16 +34,17 @@ exports.new_class = function (data, callback) {
 		});
 	});
 };
-exports.lock_student = function(data, callback){//class_id, stu_id
+exports.lock_student = function(data){//class_id, stu_id
 	var currentClass = classTable[data.class_id];
 
 	for (var i = currentClass.student_list.length - 1; i >= 0; i--) {
-		if(currentClass.student_list[i].stu_id === data.stu_id){
+		if(currentClass.student_list[i].stu_id == data.stu_id){
+			console.log('lock you !!!!');
 			currentClass.student_list[i].lock = true;
 			var query = {_id:currentClass._id, 'student_list.stu_id':data.stu_id};
-			var update = {$set:{'student_list.$.come':true}};
+			var update = {$set:{'student_list.$.come':!currentClass.student_list[i].come,
+								'student_list.$.lock':true}};
 			ClassHistory.update(query, update, function(){});
-			callback(returnString);
 			break;
 		}
 	}
@@ -57,7 +58,7 @@ exports.student_list = function(data, callback) {
 		callback(result.student_list);
 	});
 };
-exports.come = function(data, callback) {
+exports.come = function(data, isCome,callback) {
 	var currentClass = classTable[data.class_id],
 		returnString = 'ok';
 	if (currentClass == null){
@@ -83,7 +84,7 @@ exports.come = function(data, callback) {
 				}
 			}
 			var query = {_id:currentClass._id, 'student_list.stu_id':data.stu_id};
-			var update = {$set:{'student_list.$.come':true}};
+			var update = {$set:{'student_list.$.come':isCome}};
 			ClassHistory.update(query, update, function(){});
 			callback(returnString);
 		}
@@ -114,7 +115,7 @@ exports.start_vote = function(id, callback){
 	var currentClass = classTable[id];
 	currentClass.isVote = true;
 	var order = currentClass.question_list.length +1;
-	currentClass.currentQuestion = new Question({name:'ans'+order});
+	currentClass.currentQuestion = new Question({name:order});
 	currentClass.count = {a:0,b:0, c:0, d:0};
 	
 
@@ -141,7 +142,25 @@ exports.voting = function(data, callback) {
 	callback('not ok');	
 	}
 };
-
+exports.vote_result_list = function(data, callback){
+	var list = [];
+	ClassHistory.findOne({_id:data}, function(err, result){
+		for (var i = result.question_list.length - 1; i >= 0; i--) {
+			var a=0,b=0,c=0,d=0;
+			for (var j = result.question_list[i].answer.length - 1; j >= 0; j--) {
+				switch(result.question_list[i].answer[j].answer)
+			{
+			    case 'A':a++;break;
+			    case 'B':b++;break;
+			    case 'C':c++;break;
+			    case 'D':d++;break;
+			    }
+			}
+			list.push({order:result.question_list[i].name, a:a, b:b, c:c, d:d});
+		}
+		callback(list);
+	});
+};
 exports.end_vote = function(data, callback) {
 	var currentClass = classTable[data.class_id],
 		returnString = 'ok';

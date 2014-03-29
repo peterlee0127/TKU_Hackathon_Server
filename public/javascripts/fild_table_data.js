@@ -26,7 +26,7 @@ function addStudent(json)
 }
 function force_change_come(id)
 {
-    socket.emit('force_change_Come', {'stu_id':id});
+    socket.emit('force_change_Come', {'stu_id':id, "class_id":json._id});
     var  come = $('#'+id+' td a').html();
     if ((come === "有到"))
     {
@@ -39,7 +39,7 @@ function force_change_come(id)
 }
 function addAnswerTitle(data)
 {
-    var answer_num = $('<th>A' + data.number + '</th>');
+    var answer_num = $('<th><a onclick="change_chart_of_vote('+data.name+')">' + data.name + '</a></th>');
     $('.table_header').append(answer_num);
     $("tbody tr").each(function()
     {
@@ -47,11 +47,12 @@ function addAnswerTitle(data)
         $(this).append(answerHtml);
     });
 }
-function addAnswer(data)  //{"name":{},"answers":[{"answer":"A","stu_id":499410743}
+function addAnswer(data)  //{"answer":"A","stu_id":499410743}
 {
-    var answer_id = data.answers[0].stu_id;
+    if(data){
+        var answer_id = data.stu_id;
     var id = answer_id.toString();
-    var answer = data.answers[0].answer.toString();
+    var answer = data.answer;
     $("tbody tr").each(function()
     {
         if(id==this.id)
@@ -59,6 +60,8 @@ function addAnswer(data)  //{"name":{},"answers":[{"answer":"A","stu_id":4994107
             $(this.lastChild).html(answer);
         }
     });
+    }
+    
 }
 function fixVoteresult(data)
 {
@@ -81,9 +84,20 @@ function fixVoteresult(data)
     }
     data.answers = result;
 }
+(function(){
+    for (var i = json.question_list.length - 1; i >= 0; i--) {
+        addAnswerTitle(json.question_list[i]);
+        for (var j = json.question_list[i].answer.length - 1; j >= 0; j--) {
+           addAnswer( json.question_list[i].answer[j]);
+        }
+    }
+})();
+function change_chart_of_vote(order){
+    socket.emit('one_vote_result', {class_id:json._id, order:order});
+}
 
 socket.on('start_vote', addAnswerTitle);
-socket.on('voting', addAnswer);
+socket.on('voting_res', addAnswer);
 
 socket.on('addme_res', function(data){
     alert("yes");

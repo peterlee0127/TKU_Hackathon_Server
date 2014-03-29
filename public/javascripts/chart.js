@@ -173,6 +173,10 @@ draw_vote_chart($sad);
 function voting(voteResult){
   reload_vote_date(voteResult);
 }
+socket.on('one_vote_result_res', function(result){
+    d3.select("svg").remove();
+  draw_vote_chart(result);
+});
 
 socket.on('start_vote', function(){
     d3.select("svg").remove();
