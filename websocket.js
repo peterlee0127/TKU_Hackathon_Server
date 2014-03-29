@@ -25,7 +25,12 @@ exports.connect = function (io, socket) {
 		//class_id
 		classController.start_vote(obj.class_id, function(order){
 			if(order != 'no'){
-				io.sockets.in(obj.class_id).emit('start_vote', {
+
+				socket.broadcast.to(obj.class_id).emit('start_vote', {
+					'name':order,
+					'class_id':obj.class_id
+				});
+				socket.emit('start_vote', {
 					'name':order,
 					'class_id':obj.class_id
 				});
@@ -57,6 +62,8 @@ exports.connect = function (io, socket) {
 		classController.end_vote(obj, function(result, count){
 			console.log(count);
 			socket.broadcast.to(obj.class_id).emit('vote_result', count);//a,b,c,d
+			socket.emit('vote_result', count);//a,b,c,d
+
 		});
 	});
 
