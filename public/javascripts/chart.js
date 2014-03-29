@@ -22,7 +22,7 @@ function count_vote(j){
   var a=0,b=0,c=0,d=0;
   var answers;
   if (j.question_list.length >0) {
-    answers = j.question_list.slice(-1)[0].answers;
+    answers = j.question_list.slice(-1)[0].answer;
     for (var i = answers.length - 1; i >= 0; i--) {
       switch(answers[i].answer)
       {
@@ -168,5 +168,8 @@ function voting(voteResult){
 }
 
 socket.on('find_vote_res', reload_vote_date);
-socket.on('voting', voting);
-socket.on('end_vote', reload_vote_date);
+socket.on('voting_res', voting);
+socket.on('vote_result', function(result){
+  d3.select("svg").remove();
+  draw_vote_chart(result);
+});

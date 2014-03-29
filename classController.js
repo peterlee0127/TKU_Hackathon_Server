@@ -43,21 +43,27 @@ exports.come = function(data, callback) {
 	var currentClass = classTable[data.class_id],
 		returnString = 'ok';
 	if (currentClass == null){
-		callback('not ok');
+		ClassHistory.findOne({_id:data.class_id}, function(err, result){
+			classTable[data.class_id] = result;
+			currentClass = result;
+			action_new();
+		});
 	}
 	else if(currentClass.lock === false){
-	for (var i = currentClass.student_list.length - 1; i >= 0; i--) {
-		if(currentClass.student_list[i].lock === false&&currentClass.student_list[i].stu_id === data.stu_id) {
-			currentClass.student_list[i].come = true;
-			returnString = 'ok';
+	action_new();
+	}
+	function action_new(){
+			for (var i = currentClass.student_list.length - 1; i >= 0; i--) {
+				if(currentClass.student_list[i].lock === false&&currentClass.student_list[i].stu_id === data.stu_id) {
+					currentClass.student_list[i].come = true;
+					returnString = 'ok';
+				}
+			}
+			var query = {_id:currentClass._id, 'student_list.stu_id':data.stu_id};
+			var update = {$set:{'student_list.$.come':true}};
+			ClassHistory.update(query, update, function(){});
+			callback(returnString);
 		}
-	}
-	var query = {_id:currentClass._id, 'student_list.stu_id':data.stu_id};
-	var update = {$set:{'student_list.$.come':true}};
-	ClassHistory.update(query, update, function(){});
-	callback(returnString);
-	}
-	
 };
 
 exports.class_list = function(callback) {
