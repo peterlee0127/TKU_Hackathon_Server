@@ -19,8 +19,10 @@ var app = express();
 app.set('port', process.env.PORT || 3000);
 app.set('views', __dirname + '/views');
 app.set('view engine', 'ejs');
-app.use(express.favicon());
 app.use(express.logger('dev'));
+app.use(express.cookieParser());
+app.use(express.favicon());
+
 // app.use(express.session({
 // 		secret: '1234567890QWERTY',
 // 		cookie  : {
@@ -31,7 +33,9 @@ app.use(express.logger('dev'));
 // 				clear_interval : 3600
 // 		})
 // }));
-app.use(express.bodyParser());
+app.use(express.json());
+app.use(express.urlencoded());
+app.use(express.methodOverride());
 app.use(express.methodOverride());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(app.router);
