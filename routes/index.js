@@ -12,15 +12,15 @@ exports.index = function(req, res){
 	class_time : String,
 */
 exports.newClass = function(req, res){
-	// req.body = {
-	// 	class_name : '微積分',
-	// 	class_room : 'E405',
-	// 	class_time : 'Friday',
-	// };
 	classController.new_class(req.body, function(result){
 		classController.class_list(function(result){
 			res.redirect('/course');
 		});
+	});
+};
+exports.student_list = function(req, res) {
+	classController.student_list(req.params.id, function(result){
+		res.json(result);
 	});
 };
 exports.classPage = function(req, res){

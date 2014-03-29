@@ -51,17 +51,20 @@ if ('development' == app.get('env')) {
   app.use(express.errorHandler());
 }
 
-app.get('/', routes.index);
+app.get('/', function(req, res){
+
+});
 app.get('/api/beacon', function(req,res){
 	var fs = require('fs');
 	fs.readFile('./beacon.json', function(err, string){
 		var json = JSON.parse(string);
 		res.json(json);
-	})
+	});
 });
 app.post('/api/newClass', routes.newClass);
 app.get('/api/list', routes.class_List);
 app.get('/api/class/:id', routes.find_Class);
+app.get('/api/class/:id/student_list', routes.student_list);
 app.get('/client/:id', function(req, res){
 	res.render('client', {'id':req.params.id});
 });
