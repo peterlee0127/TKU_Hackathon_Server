@@ -1,15 +1,4 @@
-function data_POST()
-{
-    
-    $.ajax({
-        type: "POST",
-        url: "http://localhost:3000/api/newClass",
-        data: "&class_name="+name+"&class_room="+room+"&class_time="+time,
-        dataType:'json'
-    });
-}
-
-function add_class()
+function add_Class()
 {
     var name = $('#name').val();
     var room = $('#room').val();
@@ -20,7 +9,16 @@ function add_class()
                             '<td>'+ time +'</td>'+
                     '</tr>');
     $('tbody').append(data);
+    
+    $.ajax({
+        type: "POST",
+        url: "http://localhost:3000/api/newClass",
+        data: "&class_name="+name+"&class_room="+room+"&class_time="+time,
+        dataType:'json'
+    });
 }
+
+
 
 function init_class_list(json)
 {
