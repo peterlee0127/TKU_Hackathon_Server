@@ -1,0 +1,49 @@
+html,body
+{
+    min-height: 100%;
+    height: 100%;
+    background-color: #EFEBD6;
+    overflow: hidden;
+}
+.wrapper
+{
+    position: relative;
+}
+
+/*header*/
+.header_style
+{
+    background-color: #E6735C;
+    height: 50px;
+}
+.header_bot
+{
+    background-color: #373F49;
+    height: 20px;
+}
+.footer_top
+{
+    position: fixed;
+    bottom: 50px;
+    left: 0;
+    right: 0;
+    background-color: #373F49;
+    height: 20px;
+}
+.footer
+{
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background-color: #E6735C;
+    height: 50px;
+}
+
+.login_form
+{
+    margin-top: 8%;
+    padding-top: 30px;
+    padding-bottom: 30px;
+    background-color: #efe198;
+}
