@@ -167,8 +167,27 @@ function voting(voteResult){
   reload_vote_date(voteResult);
 }
 
-socket.on('find_vote_res', reload_vote_date);
-socket.on('voting_res', voting);
+socket.on('start_vote', function(){
+    d3.select("svg").remove();
+    $sad.a = 0;
+  $sad.b = 0;
+  $sad.c = 0;
+  $sad.d = 0;
+  draw_vote_chart($sad);
+});
+socket.on('voting_res', function(answer){
+  switch(answer.answer)
+      {
+        case 'A':$sad.a++;break;
+        case 'B':$sad.b++;break;
+        case 'C':$sad.c++;break;
+        case 'D':$sad.d++;break;
+      }
+        d3.select("svg").remove();
+
+        draw_vote_chart($sad);
+
+});
 socket.on('vote_result', function(result){
   d3.select("svg").remove();
   draw_vote_chart(result);

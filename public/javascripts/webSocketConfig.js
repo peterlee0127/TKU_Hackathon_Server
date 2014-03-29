@@ -4,7 +4,7 @@ socket.on('connect', function() {
     socket.emit('addme', {'stu_id':'admin', 'class_id':json._id});
 });
 
-socket.on('listenChat',function(data) {
+socket.on('listen_chat',function(data) {
 	var e = $('<li class="other_chat">'+
 				'<div class="chat-body clearfix">'+
 					'<div class="chat_id">'+
