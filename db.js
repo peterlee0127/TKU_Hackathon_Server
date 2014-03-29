@@ -7,8 +7,8 @@ var student = new Schema({
 	'stu_id':String,
 	'name':String,
 	'come':{
-		type:Boolean,
-		default:false,
+		type:String,
+		default:'false',
 		required:true
 	},
 	'lock':{

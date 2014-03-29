@@ -36,13 +36,21 @@ exports.new_class = function (data, callback) {
 };
 exports.lock_student = function(data){//class_id, stu_id
 	var currentClass = classTable[data.class_id];
-
 	for (var i = currentClass.student_list.length - 1; i >= 0; i--) {
 		if(currentClass.student_list[i].stu_id == data.stu_id){
-			console.log('lock you !!!!');
 			currentClass.student_list[i].lock = true;
+			var newCome;
+			if (currentClass.student_list[i].come == 'true') {
+				currentClass.student_list[i].come = "false";
+				newCome = 'false';
+			}else{
+				currentClass.student_list[i].come = 'true';
+								newCome = 'true';
+			}
+							console.log(newCome);
+
 			var query = {_id:currentClass._id, 'student_list.stu_id':data.stu_id};
-			var update = {$set:{'student_list.$.come':!currentClass.student_list[i].come,
+			var update = {$set:{'student_list.$.come':newCome,
 								'student_list.$.lock':true}};
 			ClassHistory.update(query, update, function(){});
 			break;
@@ -55,7 +63,11 @@ exports.lock_class = function(data, callback){
 };
 exports.student_list = function(data, callback) {
 	ClassHistory.findOne({_id:data}, function(err, result){
-		callback(result.student_list);
+		if (result) {
+				callback(result.student_list);	
+		}
+		else
+			callback([]);
 	});
 };
 exports.come = function(data, isCome,callback) {
@@ -66,20 +78,27 @@ exports.come = function(data, isCome,callback) {
 			if (result) {
 				classTable[data.class_id] = result;
 				currentClass = result;
-				action_new();
+				if(currentClass.lock === false)	action_new();
+				else
+					callback('lock');
 			}else{
 				callback('id_wrong');
 			}
 			
 		});
 	}
-	else if(currentClass.lock === false){
+	else if(currentClass.lock === true){
+							callback('lock');
+
+	}
+	else{
 		action_new();
+
 	}
 	function action_new(){
 			for (var i = currentClass.student_list.length - 1; i >= 0; i--) {
 				if(currentClass.student_list[i].lock === false&&currentClass.student_list[i].stu_id === data.stu_id) {
-					currentClass.student_list[i].come = true;
+					currentClass.student_list[i].come = 'true';
 					returnString = 'ok';
 				}
 			}
@@ -100,7 +119,7 @@ exports.class_list = function(callback) {
 	}
 		
 	}, function(err, result){
-		callback(result);
+		callback(result.reverse());
 	});
 };
 
@@ -113,13 +132,20 @@ exports.find_class = function(id, callback){
 
 exports.start_vote = function(id, callback){
 	var currentClass = classTable[id];
-	currentClass.isVote = true;
-	var order = currentClass.question_list.length +1;
-	currentClass.currentQuestion = new Question({name:order});
-	currentClass.count = {a:0,b:0, c:0, d:0};
-	
+	if (currentClass.hasOwnProperty('isVote') && currentClass.isVote == true) {
+		console.log('no vote');
+			callback('no');
+	}
+	else{
+		currentClass.isVote = true;
+		var order = currentClass.question_list.length +1;
+		currentClass.currentQuestion = new Question({name:order});
+		currentClass.count = {a:0,b:0, c:0, d:0};
+		callback(order);
+		console.log('vote '+order);
 
-	callback(order);
+	}
+	
 };
 
 exports.voting = function(data, callback) {
@@ -142,6 +168,26 @@ exports.voting = function(data, callback) {
 	callback('not ok');	
 	}
 };
+
+exports.end_vote = function(data, callback) {
+	var currentClass = classTable[data.class_id],
+		returnString = 'ok';
+
+	if (currentClass.lock ===false&& 
+		currentClass.hasOwnProperty('isVote') &&
+		currentClass.isVote === true){
+		currentClass.isVote = false;
+		var query = {_id:currentClass._id};
+		currentClass.question_list.push(currentClass.currentQuestion);
+		var update = {$push:{'question_list':currentClass.currentQuestion}};		
+		ClassHistory.update(query, update, function(err, result){
+			callback(result.question_list, currentClass.count);
+		});
+	} 
+	else{
+		callback('not ok');
+	}		
+};
 exports.vote_result_list = function(data, callback){
 	var list = [];
 	ClassHistory.findOne({_id:data}, function(err, result){
@@ -160,21 +206,4 @@ exports.vote_result_list = function(data, callback){
 		}
 		callback(list);
 	});
-};
-exports.end_vote = function(data, callback) {
-	var currentClass = classTable[data.class_id],
-		returnString = 'ok';
-
-	if (currentClass.lock ===false&& 
-		currentClass.hasOwnProperty('isVote') &&
-		currentClass.isVote === true){
-		var query = {_id:currentClass._id};
-		var update = {$push:{'question_list':currentClass.currentQuestion}};		
-		ClassHistory.update(query, update, function(err, result){
-			callback(result.question_list, currentClass.count);
-		});
-	} 
-	else{
-		callback('not ok');
-	}		
 };

@@ -91,5 +91,5 @@ var server =  http.createServer(app).listen(app.get('port'), function(){
 
 var io = require('socket.io').listen(server);
 io.on('connection', function(socket){
-	require('./websocket.js').connect(socket);
+	var innser = require('./websocket.js').connect(io, socket);
 });

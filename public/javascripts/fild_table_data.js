@@ -6,7 +6,7 @@ function addStudent(json)
     var str;
     for (var i = json.student_list.length-1; i>=0; i--)
     {
-        if(json.student_list[i].come)
+        if(json.student_list[i].come == 'true')
         {
             str = "有到";
         }
@@ -85,7 +85,7 @@ function fixVoteresult(data)
     data.answers = result;
 }
 (function(){
-    for (var i = json.question_list.length - 1; i >= 0; i--) {
+    for (var i =0,max= json.question_list.length; i <max; i++) {
         addAnswerTitle(json.question_list[i]);
         for (var j = json.question_list[i].answer.length - 1; j >= 0; j--) {
            addAnswer( json.question_list[i].answer[j]);
@@ -99,8 +99,7 @@ function change_chart_of_vote(order){
 socket.on('start_vote', addAnswerTitle);
 socket.on('voting_res', addAnswer);
 
-socket.on('addme_res', function(data){
-    alert("yes");
+socket.on('come', function(data){
     $('#'+data.stu_id+' td a div').html('有到');
 });
 socket.on('not_come', function(data){

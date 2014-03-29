@@ -11,19 +11,17 @@
 			"class_id":id,
 			"stu_id":"499410743"
 		});
-		socket.emit('chat', {stu_id:"499410743", message:"haha"})
+		// socket.emit('chat', {stu_id:"499410743", message:"haha"})
 	});
 	socket.on('addme_res', function(obj){
-		alert(obj);
 	});
 	socket.on('start_vote', function(obj){
-		alert(obj.class_id);
 	});
 	function send_vote (form) {
 		for (Count = 0; Count < 4; Count++) {
 	        if (form.vote[Count].checked)
 			    socket.emit('voting', {
-			    	"stu_id":499410743,
+			    	"stu_id":'499410743',
 			    	"class_id":id,
 			    	"answer":form.vote[Count].value});
 	    }

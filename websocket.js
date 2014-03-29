@@ -1,30 +1,41 @@
 var classController = require('./classController');
 var user_socket_table = {};
 
-exports.connect = function (socket) {
+exports.connect = function (io, socket) {
 	socket.on('addme', function(obj){//stu_id, class_id
 		classController.come(obj,true, function(string){
 			if (string == 'ok') {
 				socket.join(obj.class_id);
+				socket.broadcast.to(obj.class_id).emit('come', obj);
 			}
 			socket.emit('addme_res', string);
-			user_socket_table[socket] = obj;
+				user_socket_table[socket] = obj;
 		});
 	});
 
 	socket.on('disconnect', function(){
-		socket.broadcast.to(user_socket_table[socket].class_id).emit('not_come',user_socket_table[socket]);
-		classController.come(user_socket_table[socket],false, function(){});
+		classController.come(user_socket_table[socket],false, function(string){
+			if (string !== 'lock')
+			socket.broadcast.to(user_socket_table[socket].class_id).emit('not_come',user_socket_table[socket]);
+		});
 	});
 
 	socket.on('vote_req', function(obj){
 		console.log('vote_req'+obj);
 		//class_id
 		classController.start_vote(obj.class_id, function(order){
-			socket.broadcast.to(obj.class_id).emit('start_vote', {
-				'name':order,
-				'class_id':obj.class_id
-			});
+			if(order != 'no'){
+
+				socket.broadcast.to(obj.class_id).emit('start_vote', {
+					'name':order,
+					'class_id':obj.class_id
+				});
+				socket.emit('start_vote', {
+					'name':order,
+					'class_id':obj.class_id
+				});
+			}
+			
 		});
 	});
 	socket.on('one_vote_result', function(obj){
@@ -51,6 +62,8 @@ exports.connect = function (socket) {
 		classController.end_vote(obj, function(result, count){
 			console.log(count);
 			socket.broadcast.to(obj.class_id).emit('vote_result', count);//a,b,c,d
+			socket.emit('vote_result', count);//a,b,c,d
+
 		});
 	});
 
