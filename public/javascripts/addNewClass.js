@@ -12,8 +12,8 @@ function add_Class()
     
     $.ajax({
         type: "POST",
-        contentType: "application/json; charset=utf-8",
-        url: "localhost:3000/course/api/newClass",
-        data: "{'class_name':'" + name + "', 'class_room':'" + room + "', 'class_time':'" + time + "'}",
+        url: "http://localhost:3000/api/newClass",
+        data: "&class_name="+name+"&class_room="+room+"class_time="+time,
+        dataType:'json'
     });
 }
