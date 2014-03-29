@@ -36,13 +36,21 @@ exports.new_class = function (data, callback) {
 };
 exports.lock_student = function(data){//class_id, stu_id
 	var currentClass = classTable[data.class_id];
-
 	for (var i = currentClass.student_list.length - 1; i >= 0; i--) {
 		if(currentClass.student_list[i].stu_id == data.stu_id){
-			console.log('lock you !!!!');
 			currentClass.student_list[i].lock = true;
+			var newCome;
+			if (currentClass.student_list[i].come == 'true') {
+				currentClass.student_list[i].come = "false";
+				newCome = 'false';
+			}else{
+				currentClass.student_list[i].come = 'true';
+								newCome = 'true';
+			}
+							console.log(newCome);
+
 			var query = {_id:currentClass._id, 'student_list.stu_id':data.stu_id};
-			var update = {$set:{'student_list.$.come':!currentClass.student_list[i].come,
+			var update = {$set:{'student_list.$.come':newCome,
 								'student_list.$.lock':true}};
 			ClassHistory.update(query, update, function(){});
 			break;
@@ -66,20 +74,27 @@ exports.come = function(data, isCome,callback) {
 			if (result) {
 				classTable[data.class_id] = result;
 				currentClass = result;
-				action_new();
+				if(currentClass.lock === false)	action_new();
+				else
+					callback('lock');
 			}else{
 				callback('id_wrong');
 			}
 			
 		});
 	}
-	else if(currentClass.lock === false){
+	else if(currentClass.lock === true){
+							callback('lock');
+
+	}
+	else{
 		action_new();
+
 	}
 	function action_new(){
 			for (var i = currentClass.student_list.length - 1; i >= 0; i--) {
 				if(currentClass.student_list[i].lock === false&&currentClass.student_list[i].stu_id === data.stu_id) {
-					currentClass.student_list[i].come = true;
+					currentClass.student_list[i].come = 'true';
 					returnString = 'ok';
 				}
 			}

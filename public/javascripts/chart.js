@@ -9,7 +9,6 @@ $(window).resize(function()
 {
   clearBox(".chart_box");
   draw_vote_chart($sad);
-
 });
 
 function clearBox(elementID)
@@ -66,7 +65,15 @@ function draw_vote_chart(sad) {
   {
     width = (1280*0.69) - margin.left - margin.right;
   }
-  var height = $(".panel").height()-30;
+  var height;
+  if(current_width<1200)
+  {
+    height = $(".panel").height()-70;
+  }
+  else
+  {
+    height = $(".panel").height()-30;
+  }
 
   var formatPercent = d3.format("d");
 

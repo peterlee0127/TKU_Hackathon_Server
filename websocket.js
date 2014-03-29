@@ -6,16 +6,18 @@ exports.connect = function (socket) {
 		classController.come(obj,true, function(string){
 			if (string == 'ok') {
 				socket.join(obj.class_id);
+				socket.broadcast.to(obj.class_id).emit('come', obj);
 			}
-			socket.broadcast.to(obj.class_id).emit('come', obj);
 			socket.emit('addme_res', string);
-			user_socket_table[socket] = obj;
+				user_socket_table[socket] = obj;
 		});
 	});
 
 	socket.on('disconnect', function(){
-		socket.broadcast.to(user_socket_table[socket].class_id).emit('not_come',user_socket_table[socket]);
-		classController.come(user_socket_table[socket],false, function(){});
+		classController.come(user_socket_table[socket],false, function(string){
+			if (string !== 'lock')
+			socket.broadcast.to(user_socket_table[socket].class_id).emit('not_come',user_socket_table[socket]);
+		});
 	});
 
 	socket.on('vote_req', function(obj){
