@@ -4,10 +4,11 @@
 	<title>client test</title>
 	<script src="/javascripts/socket.io.min.js"></script>
 	<script type="text/javascript">
+	var id = <%= id%>
 	var socket = io.connect('http://localhost:3000');
 	socket.on('connect',function () {
 		socket.emit('addme', {
-			"class_id":"533635f23394382af8f2f010",
+			"class_id":id,
 			"stu_id":"499410043"
 		});
 	});
@@ -22,15 +23,15 @@
 	        if (form.vote[Count].checked)
 			    socket.emit('voting', {
 			    	"stu_id":499410743,
-			    	"class_id":"533635f23394382af8f2f010",
+			    	"class_id":id,
 			    	"answer":form.vote[Count].value});
 	    }
 	}
 	function start_vote(){
-	    socket.emit('vote_req', {"class_id":"533635f23394382af8f2f010"});
+	    socket.emit('vote_req', {"class_id":id});
 	}
 	function end_vote(){
-        socket.emit('end_vote', {"class_id":"533635f23394382af8f2f010"});
+        socket.emit('end_vote', {"class_id":id});
 	}
 	</script>
 </head>
