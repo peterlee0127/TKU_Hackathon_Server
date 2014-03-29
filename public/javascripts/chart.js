@@ -21,8 +21,8 @@ function clearBox(elementID)
 function count_vote(j){
   var a=0,b=0,c=0,d=0;
   var answers;
-  if (j.question.length >0) {
-    answers = j.question.slice(-1)[0].answers;
+  if (j.question_list.length >0) {
+    answers = j.question_list.slice(-1)[0].answers;
     for (var i = answers.length - 1; i >= 0; i--) {
       switch(answers[i].answer)
       {
@@ -156,7 +156,7 @@ function draw_vote_chart(sad) {
 }
 
 function reload_vote_date(voteResult){
-  count_vote({'question':[voteResult]});
+  count_vote({'question_list':[voteResult]});
   d3.select("svg").remove();
   draw_vote_chart($sad);
 }

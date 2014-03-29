@@ -22,9 +22,9 @@ exports.login = function(req, res){
 */
 exports.newClass = function(req, res){
 	classController.new_class(req.body, function(result){
-		classController.class_list(function(result){
-			res.end(result);
-		});
+		console.log(result);
+
+		res.json(result);
 	});
 };
 exports.student_list = function(req, res) {
@@ -34,7 +34,7 @@ exports.student_list = function(req, res) {
 };
 exports.classPage = function(req, res){
 	classController.find_class(req.params.id, function(result){
-		res.render('index', {json : JSON.stringify(result) });
+		res.render('index', {string : JSON.stringify(result) });
 	});
 };
 exports.course = function(req, res) {
