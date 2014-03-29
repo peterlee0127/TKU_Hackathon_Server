@@ -57,6 +57,10 @@ app.get('/', middleHandler,function(req, res){
 app.get('/login', function(req, res){
 	res.render('login');
 });
+app.get('/logout', function(req, res){
+	req.session.user = NaN;
+	res.render('login');
+});
 app.get('/api/beacon', function(req,res){
 	var fs = require('fs');
 	fs.readFile('./beacon.json', function(err, string){
@@ -73,7 +77,7 @@ app.get('/api/class/:id/student_list', routes.student_list);
 app.get('/client/:id', function(req, res){
 	res.render('client', {'id':req.params.id});
 });
-app.get('/course', routes.course);
+app.get('/course', middleHandler,routes.course);
 app.get('/course1', function(req, res){
 	res.render('newClass1',{});
 });

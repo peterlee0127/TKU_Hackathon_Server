@@ -27,7 +27,15 @@ exports.connect = function (socket) {
 			});
 		});
 	});
-
+	socket.on('one_vote_result', function(obj){
+		classController.vote_result_list(obj.class_id, function(result){
+			for (var i = result.length - 1; i >= 0; i--) {
+				if(result[i].order == obj.order){
+					socket.emit('one_vote_result_res', result[i]);
+				}
+			}
+		});
+	});
 	socket.on('force_change_Come', function(data){
 		console.log('force_change_Come'+data.class_id);
 		classController.lock_student(data);

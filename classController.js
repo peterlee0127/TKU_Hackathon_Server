@@ -39,9 +39,11 @@ exports.lock_student = function(data){//class_id, stu_id
 
 	for (var i = currentClass.student_list.length - 1; i >= 0; i--) {
 		if(currentClass.student_list[i].stu_id == data.stu_id){
+			console.log('lock you !!!!');
 			currentClass.student_list[i].lock = true;
 			var query = {_id:currentClass._id, 'student_list.stu_id':data.stu_id};
-			var update = {$set:{'student_list.$.come':!currentClass.student_list[i].come}};
+			var update = {$set:{'student_list.$.come':!currentClass.student_list[i].come,
+								'student_list.$.lock':true}};
 			ClassHistory.update(query, update, function(){});
 			break;
 		}

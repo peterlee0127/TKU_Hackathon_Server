@@ -10,6 +10,8 @@ exports.login = function(req, res){
 	console.log(req.body);
 	if (req.body.hasOwnProperty('email')&&
 		req.body.email == 'admin@admin') {
+		req.session.user = 'admin';
+
 		res.redirect('/course');
 	}else
 		res.redirect('/login');

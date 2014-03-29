@@ -29,7 +29,7 @@ function force_change_come(id)
 }
 function addAnswerTitle(data)
 {
-    var answer_num = $('<th>A' + data.name + '</th>');
+    var answer_num = $('<th><a onclick="change_chart_of_vote('+data.name+')">' + data.name + '</a></th>');
     $('.table_header').append(answer_num);
     $("tbody tr").each(function()
     {
@@ -82,6 +82,10 @@ function fixVoteresult(data)
         }
     }
 })();
+function change_chart_of_vote(order){
+    socket.emit('one_vote_result', {class_id:json._id, order:order});
+}
+
 socket.on('start_vote', addAnswerTitle);
 socket.on('voting_res', addAnswer);
 
