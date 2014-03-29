@@ -58,6 +58,7 @@ exports.come = function(data, callback) {
 exports.class_list = function(callback) {
 	ClassHistory.aggregate(
 	{$project : {
+		_id:1,
 		class_name : 1,
 		class_room : 1,
 		class_time : 1

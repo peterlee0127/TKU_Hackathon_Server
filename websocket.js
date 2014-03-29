@@ -30,7 +30,7 @@ exports.connect = function (socket) {
 	socket.on('end_vote', function(obj){//class_id
 		classController.end_vote(obj, function(result, count){
 			console.log(count);
-			socket.broadcast.to(obj.class_id).emit('vote_result', count);
+			socket.broadcast.to(obj.class_id).emit('vote_result', count);//a,b,c,d
 		});
 	});
 
