@@ -1,7 +1,7 @@
 var classController = require('./classController');
 var user_socket_table = {};
 
-exports.connect = function (socket) {
+exports.connect = function (io, socket) {
 	socket.on('addme', function(obj){//stu_id, class_id
 		classController.come(obj,true, function(string){
 			if (string == 'ok') {
@@ -25,7 +25,7 @@ exports.connect = function (socket) {
 		//class_id
 		classController.start_vote(obj.class_id, function(order){
 			if(order != 'no'){
-				socket.to(obj.class_id).emit('start_vote', {
+				io.sockets.in(obj.class_id).emit('start_vote', {
 					'name':order,
 					'class_id':obj.class_id
 				});
