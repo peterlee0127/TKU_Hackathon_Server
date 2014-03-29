@@ -85,7 +85,7 @@ function fixVoteresult(data)
     data.answers = result;
 }
 (function(){
-    for (var i = json.question_list.length - 1; i >= 0; i--) {
+    for (var i =0,max= json.question_list.length; i <max; i++) {
         addAnswerTitle(json.question_list[i]);
         for (var j = json.question_list[i].answer.length - 1; j >= 0; j--) {
            addAnswer( json.question_list[i].answer[j]);
@@ -100,7 +100,6 @@ socket.on('start_vote', addAnswerTitle);
 socket.on('voting_res', addAnswer);
 
 socket.on('come', function(data){
-    alert("yes");
     $('#'+data.stu_id+' td a div').html('有到');
 });
 socket.on('not_come', function(data){

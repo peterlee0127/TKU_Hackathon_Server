@@ -24,10 +24,13 @@ exports.connect = function (socket) {
 		console.log('vote_req'+obj);
 		//class_id
 		classController.start_vote(obj.class_id, function(order){
-			socket.broadcast.to(obj.class_id).emit('start_vote', {
-				'name':order,
-				'class_id':obj.class_id
-			});
+			if(order != 'no'){
+				socket.to(obj.class_id).emit('start_vote', {
+					'name':order,
+					'class_id':obj.class_id
+				});
+			}
+			
 		});
 	});
 	socket.on('one_vote_result', function(obj){

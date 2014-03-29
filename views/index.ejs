@@ -21,6 +21,8 @@
             <nav class="navbar navbar-static-top navbar_style" role="navigation">
                 <div class="customer_counter"></div>
                 <ul class="nav navbar-nav navbar-right">
+                    <li><a onclick="start_vote()">start_vote</a></li>
+                    <li><a onclick="end_vote()">end_vote</a></li>
                     <li><a href="/logout">Logout</a></li>
                 </ul>
             </nav>
@@ -38,27 +40,7 @@
                                 </div>
                                 <div class="panel-body chat_box" id="chat_box_outer">
                                     <ul class="chat_box_inner" id="ListenChat">
-                                        <li class="other_chat">
-                                            <div class="chat-body clearfix">
-                                                <div class="chat_id">                                                                                   <strong class="primary-font chat_name">KFC</strong>
-                                                <small class="pull-right text-muted">
-                                                        <span class="glyphicon glyphicon-time"></span>12 mins ago
-                                                    </small>
-                                                </div>
-                                                <p>hellow MOS</p>
-                                            </div>
-                                        </li>
-                                        <li class="my_chat">
-                                            <div class="chat-body clearfix">
-                                                <div class="chat_id">
-                                                <small class=" text-muted">
-                                                    <span class="glyphicon glyphicon-time"></span>13 mins ago
-                                                    </small>
-                                                    <strong class="pull-right primary-font">Me</strong>
-                                                </div>
-                                                <p>  hi!</p>
-                                            </div>
-                                        </li>
+                                        
                                     </ul>
                                 </div>
                                 <div class="panel-footer chat_message_input">
@@ -104,6 +86,14 @@
             //get table data
             var str = '<%- string%>';
             var json = JSON.parse(str);
+
+            function start_vote(){
+
+                socket.emit('vote_req', {"class_id":json._id});
+            }
+            function end_vote(){
+                socket.emit('end_vote', {"class_id":json._id});
+            }
         </script>
         <script src="/javascripts/socket.io.min.js"></script>
         <script src="/javascripts/websocketConfig.js"></script>

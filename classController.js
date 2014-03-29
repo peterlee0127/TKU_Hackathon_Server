@@ -128,13 +128,17 @@ exports.find_class = function(id, callback){
 
 exports.start_vote = function(id, callback){
 	var currentClass = classTable[id];
-	currentClass.isVote = true;
-	var order = currentClass.question_list.length +1;
-	currentClass.currentQuestion = new Question({name:order});
-	currentClass.count = {a:0,b:0, c:0, d:0};
+	if (currentClass.hasOwnProperty('isVote') && currentClass.isVote == true) {
+			callback('no');
+	}
+	else{
+		currentClass.isVote = true;
+		var order = currentClass.question_list.length +1;
+		currentClass.currentQuestion = new Question({name:order});
+		currentClass.count = {a:0,b:0, c:0, d:0};
+		callback(order);
+	}
 	
-
-	callback(order);
 };
 
 exports.voting = function(data, callback) {
