@@ -36,8 +36,10 @@ exports.new_class = function (data, callback) {
 exports.come = function(data, callback) {
 	var currentClass = classTable[data.class_id],
 		returnString = 'ok';
-	if (currentClass === null) return;
-	if (currentClass.lock) callback('not ok');
+	if (currentClass == null){
+		callback('not ok');
+	}
+	else if(currentClass.lock === false){
 	for (var i = currentClass.student_list.length - 1; i >= 0; i--) {
 		if(currentClass.student_list[i].lock === false&&currentClass.student_list[i].stu_id === data.stu_id) {
 			currentClass.student_list[i].come = true;
@@ -48,6 +50,8 @@ exports.come = function(data, callback) {
 	var update = {$set:{'student_list.$.come':true}};
 	ClassHistory.update(query, update, function(){});
 	callback(returnString);
+	}
+	
 };
 
 exports.class_list = function(callback) {
@@ -75,8 +79,9 @@ exports.start_vote = function(id, callback){
 	var currentClass = classTable[id];
 	currentClass.isVote = true;
 	currentClass.currentQuestion = [];
-	callback();
-
+	var order = currentClass.question_list.length +1;
+	callback(order);
+	console.log('haha');
 };
 
 exports.voting = function(data, callback) {
@@ -89,7 +94,7 @@ exports.voting = function(data, callback) {
 		currentClass.isVote === true) callback('not ok');
 	else{
 		currentClass.currentQuestion.push(answer);
-		callback(returnString);
+		callback(answer);
 	}
 };
 
@@ -97,12 +102,16 @@ exports.end_vote = function(data, callback) {
 	var currentClass = classTable[data.class_id],
 		returnString = 'ok';
 
-	if (currentClass.lock && 
+	if (currentClass.lock ===false&& 
 		currentClass.hasOwnProperty('isVote') &&
-		currentClass.isVote === true) callback('not ok');
+		currentClass.isVote === true){
+		var query = {_id:currentClass._id, 'student_list.stu_id':data.stu_id};
+		var update = {$push:{'question_list':currentClass.currentQuestion}};		
+		ClassHistory.update(query, update, function(err, result){
+			callback(result.question_list);
+		});
+	} 
 	else{
-	var query = {_id:currentClass._id, 'student_list.stu_id':data.stu_id};
-	var update = {$push:{'question_list':currentClass.currentQuestion}};		
-	ClassHistory.update(query, update, function(err, result){});
+		callback('not ok');
 	}		
 };

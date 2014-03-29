@@ -14,9 +14,37 @@
 	socket.on('addme_res', function(obj){
 		alert(obj);
 	});
+	socket.on('start_vote', function(obj){
+		alert(obj.class_id);
+	});
+	function send_vote (form) {
+		for (Count = 0; Count < 4; Count++) {
+	        if (form.vote[Count].checked)
+			    socket.emit('voting', {
+			    	"stu_id":499410743,
+			    	"class_id":"533635f23394382af8f2f010",
+			    	"answer":form.vote[Count].value});
+	    }
+	}
+	function start_vote(){
+	    socket.emit('vote_req', {"class_id":"533635f23394382af8f2f010"});
+	}
+	function end_vote(){
+        socket.emit('end_vote', {"class_id":"533635f23394382af8f2f010"});
+	}
 	</script>
 </head>
 <body>
+<form>
+投票<br>
+    <input  type="radio" name="vote" value="A">A
+    <input  type="radio" name="vote" value="B">B
+    <input  type="radio" name="vote" value="C">C
+    <input  type="radio" name="vote" value="D">D<p>
+    <input type="button" onclick="send_vote(this.form)" value="vote">
+</form>
 
+<input type="button" onclick="start_vote()" value="startVote">
+<input type="button" onclick="end_vote()" value="endVote">
 </body>
 </html>

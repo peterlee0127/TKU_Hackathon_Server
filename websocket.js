@@ -11,15 +11,25 @@ exports.connect = function (socket) {
 	});
 
 	socket.on('vote_req', function(obj){
+		console.log('vote_req'+obj);
 		//class_id
-		classController.start_vote(obj.class_id, function(){
-			socket.broadcast.to(obj.class_id).emit('start_vote', {});
+		classController.start_vote(obj.class_id, function(order){
+			socket.broadcast.to(obj.class_id).emit('start_vote', {
+				'order':order,
+				'class_id':obj.class_id
+			});
 		});
 	});
 
 	socket.on('voting', function(obj) {//stu_id, class_id, answer
-		classController.voting(obj, function(){
+		classController.voting(obj, function(answer){
+			socket.broadcast.to(obj.class_id).emit('voting_res', answer);
+		});
+	});
 
+	socket.on('end_vote', function(obj){//class_id
+		classController.end_vote(obj, function(){
+			socket.broadcast.to(obj.class_id).emit('vote_result', {});
 		});
 	});
 };
