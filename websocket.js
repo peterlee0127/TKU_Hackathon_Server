@@ -14,10 +14,12 @@ exports.connect = function (io, socket) {
 	});
 
 	socket.on('disconnect', function(){
-		classController.come(user_socket_table[socket.id],false, function(string){
+		if (user_socket_table.hasOwnProperty(socket.id)&& user_socket_table[socket.id].hasOwnProperty('class_id') ) {
+			classController.come(user_socket_table[socket.id],false, function(string){
 			if (string !== 'lock')
-			socket.broadcast.to(user_socket_table[socket.id].class_id).emit('not_come',user_socket_table[socket.id]);
-		});
+				socket.broadcast.to(user_socket_table[socket.id].class_id).emit('not_come',user_socket_table[socket.id]);
+			});
+		}
 	});
 
 	socket.on('vote_req', function(obj){
@@ -48,7 +50,7 @@ exports.connect = function (io, socket) {
 		});
 	});
 	socket.on('force_change_Come', function(data){
-		console.log('force_change_Come'+data.class_id);
+		console.log('force_change_Come'+data.stu_id);
 		classController.lock_student(data);
 	});
 

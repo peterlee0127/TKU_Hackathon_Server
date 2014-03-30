@@ -28,7 +28,10 @@ function force_change_come(id)
 {
     socket.emit('force_change_Come', {'stu_id':id, "class_id":json._id});
     var  come = $('#'+id+' td a').html();
-    if ((come === "有到"))
+    if (come === '<div>有到</div>') {
+         $('#'+id+' td a').html('未到');
+    }
+    else if (come === "有到")
     {
         $('#'+id+' td a').html('未到');
     }
