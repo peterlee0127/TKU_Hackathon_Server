@@ -14,7 +14,6 @@ exports.connect = function (io, socket) {
 	});
 
 	socket.on('disconnect', function(){
-		console.log('disconnect'+user_socket_table[socket.id].stu_id);
 		classController.come(user_socket_table[socket.id],false, function(string){
 			if (string !== 'lock')
 			socket.broadcast.to(user_socket_table[socket.id].class_id).emit('not_come',user_socket_table[socket.id]);
