@@ -14,13 +14,25 @@ function addStudent(json)
         {
             str = "未到";
         }
-        var nameANDhere = $('<tr id="' + json.student_list[i].stu_id+ '">'+
+        var nameANDhere = '';
+        if (json.student_list[i].lock === true) {
+            nameANDhere = $('<tr id="' + json.student_list[i].stu_id+ '">'+
+                                '<td>'+ json.student_list[i].name + '</td>'+
+                                '<td>'+ 
+                                '<a onclick="force_change_come('+json.student_list[i].stu_id+')">'+
+                                str+
+                                '</a></td>'
+                            +'</tr>');
+        }else {
+            nameANDhere = $('<tr id="' + json.student_list[i].stu_id+ '">'+
                                 '<td>'+ json.student_list[i].name + '</td>'+
                                 '<td>'+ 
                                     '<a onclick="force_change_come('+json.student_list[i].stu_id+')">'+
                                     '<div>'+ str + '</div>'
                                     +'</a></td>'
                             +'</tr>');
+        }
+        
         $('tbody').append(nameANDhere);
     }
 }
