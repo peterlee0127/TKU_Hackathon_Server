@@ -153,10 +153,13 @@ exports.voting = function(data, callback) {
 		returnString = 'ok',
 		answer = {stu_id:data.stu_id, answer:data.answer};
 
-	if (data.answer == 'A') currentClass.count.a++;
-	else if (data.answer == 'B') currentClass.count.b++;
-	else if (data.answer == 'C') currentClass.count.c++;
-	else if (data.answer == 'D') currentClass.count.d++;
+	if (currentClass.hasOwnProperty('count')) {
+		if (data.answer == 'A') currentClass.count.a++;
+		else if (data.answer == 'B') currentClass.count.b++;
+		else if (data.answer == 'C') currentClass.count.c++;
+		else if (data.answer == 'D') currentClass.count.d++;
+	}
+	
 
 	if (currentClass.lock ===false&& 
 		currentClass.hasOwnProperty('isVote') &&

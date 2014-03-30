@@ -9,14 +9,15 @@ exports.connect = function (io, socket) {
 				socket.broadcast.to(obj.class_id).emit('come', obj);
 			}
 			socket.emit('addme_res', string);
-				user_socket_table[socket] = obj;
+				user_socket_table[socket.id] = obj;
 		});
 	});
 
 	socket.on('disconnect', function(){
-		classController.come(user_socket_table[socket],false, function(string){
+		console.log('disconnect'+user_socket_table[socket.id].stu_id);
+		classController.come(user_socket_table[socket.id],false, function(string){
 			if (string !== 'lock')
-			socket.broadcast.to(user_socket_table[socket].class_id).emit('not_come',user_socket_table[socket]);
+			socket.broadcast.to(user_socket_table[socket.id].class_id).emit('not_come',user_socket_table[socket.id]);
 		});
 	});
 

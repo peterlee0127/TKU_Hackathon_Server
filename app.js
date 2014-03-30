@@ -29,7 +29,7 @@ app.use(express.session({
 				maxAge  : 24 * 60 *60 *1000    
 		},
 		store: new MongoStore({
-				db: 'sessionstore',
+				db: 'session',
 				clear_interval : 3600
 		})
 }));
