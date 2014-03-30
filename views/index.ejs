@@ -82,7 +82,9 @@
             <!--footer-->
             <div class="footer"></div>
         </div>
-        <script type="text/javascript">
+		
+        <script src="/javascripts/socket.io.min.js"></script>
+		<script type="text/javascript">
             //get table data
             var str = '<%- string%>';
             var json = JSON.parse(str);
@@ -96,7 +98,6 @@
             }
             </script>
 
-        <script src="/javascripts/socket.io.min.js"></script>
         <script src="/javascripts/websocketConfig.js"></script>
         <script src="./javascripts/change_size.js" type="text/javascript"></script>
         <script src="./javascripts/d3.v3.min.js"></script>
