@@ -19,13 +19,23 @@
             
             <!--navigationbar-->
             <nav class="navbar navbar-static-top navbar_style" role="navigation">
-                <div class="customer_counter"></div>
-                <ul class="nav navbar-nav navbar-right">
-                    <li><a><input type="checkbox"> 表格整理</a></li>
-                    <li><a onclick="start_vote()">開始投票</a></li>
-                    <li><a onclick="end_vote()">結束投票</a></li>
-                    <li><a href="/logout">登出</a></li>
-                </ul>
+            	<div class="navbar-header">
+        			<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+			        	<span class="sr-only"></span>
+			           	<span class="icon-bar"></span>
+			            <span class="icon-bar"></span>
+			            <span class="icon-bar"></span>
+        			</button>
+    			</div>
+				<div class="customer_counter"></div>
+				<div class="navbar-collapse collapse potato">
+        			<ul class="nav navbar-nav navbar-right">
+                    	<li><a><input type="checkbox"> 表格整理</a></li>
+                    	<li><a onclick="start_vote()">開始投票</a></li>
+                    	<li><a onclick="end_vote()">結束投票</a></li>
+                    	<li><a href="/logout">登出</a></li>
+                	</ul>
+    			</div>
             </nav>
             
             <!--chatbar & chartbar-->
