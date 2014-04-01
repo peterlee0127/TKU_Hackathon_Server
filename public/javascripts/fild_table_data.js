@@ -8,17 +8,19 @@ function addStudent(json)
     {
         if(json.student_list[i].come == 'true')
         {
-            str = "有到";
+            str = ' style="color:green;">有到';
+            // str = "有到";
         }
         else
         {
-            str = "未到";
+            str = ' style="color:red;">未到';
+            // str = "未到";
         }
         var nameANDhere = $('<tr id="' + json.student_list[i].stu_id+ '">'+
                                 '<td>'+ json.student_list[i].name + '</td>'+
                                 '<td>'+ 
                                     '<a onclick="force_change_come('+json.student_list[i].stu_id+')">'+
-                                    '<div>'+ str + '</div>'
+                                    '<div'+ str + '</div>'
                                     +'</a></td>'
                             +'</tr>');
         $('tbody').append(nameANDhere);
@@ -31,10 +33,16 @@ function force_change_come(id)
     if ((come === "有到"))
     {
         $('#'+id+' td a').html('未到');
+        $('#'+id+' td a').css({
+            "color" : "red"
+        });
     }
     else 
     {
         $('#'+id+' td a').html('有到');
+        $('#'+id+' td a').css({
+            "color" : "green"
+        });
     }
 }
 function addAnswerTitle(data)
@@ -101,7 +109,13 @@ socket.on('voting_res', addAnswer);
 
 socket.on('come', function(data){
     $('#'+data.stu_id+' td a div').html('有到');
+    $('#'+data.stu_id+' td a div').css({
+        "color" : "green"
+    });
 });
 socket.on('not_come', function(data){
     $('#'+data.stu_id+' td a div').html('未到');
+    $('#'+data.stu_id+' td a div').css({
+        "color" : "red"
+    });
 });

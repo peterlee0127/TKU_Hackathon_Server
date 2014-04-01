@@ -115,7 +115,8 @@
         <script src="./javascripts/change_size.js" type="text/javascript"></script>
         <script >
             function send_chat(){
-                var text = $('#btn-input').val();
+					var text = $('#btn-input').val();
+
                 socket.emit('chat', {"class_id":json._id, 'stu_id':'admin', 'message': text});
                 
 
@@ -130,8 +131,10 @@
                                 '<p>'+text+'</p>'+
                             '</div>'+
                         '</li>');
-                $('#ListenChat').append(e);
-                var objDiv = document.getElementById("chat_box_outer");
+                $('#ListenChat').append(e);	
+					$('#btn-input:text').val('');
+				   $("#btn-input:text").focus();
+				var objDiv = document.getElementById("chat_box_outer");
                 objDiv.scrollTop = objDiv.scrollHeight;
             }
         </script>
