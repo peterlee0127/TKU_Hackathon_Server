@@ -41,7 +41,7 @@ app.use(app.router);
 
 
 function middleHandler(req, res, next) {
-//    if(req.session.user)
+    // if(req.session.user)
 		next();
 	// else
 	// 	res.redirect('login');
@@ -58,7 +58,7 @@ app.get('/login', function(req, res){
 	res.render('login');
 });
 app.get('/logout', function(req, res){
-	req.session.user = NaN;
+	// req.session.user = NaN;
 	res.render('login');
 });
 app.get('/api/beacon', function(req,res){

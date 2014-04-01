@@ -16,13 +16,25 @@ function addStudent(json)
             str = ' style="color:red;">未到';
             // str = "未到";
         }
-        var nameANDhere = $('<tr id="' + json.student_list[i].stu_id+ '">'+
+        var nameANDhere = '';
+        if (json.student_list[i].lock === true) {
+            nameANDhere = $('<tr id="' + json.student_list[i].stu_id+ '">'+
+                                '<td>'+ json.student_list[i].name + '</td>'+
+                                '<td>'+ 
+                                '<a onclick="force_change_come('+json.student_list[i].stu_id+')">'+
+                                str+
+                                '</a></td>'
+                            +'</tr>');
+        }else {
+            nameANDhere = $('<tr id="' + json.student_list[i].stu_id+ '">'+
                                 '<td>'+ json.student_list[i].name + '</td>'+
                                 '<td>'+ 
                                     '<a onclick="force_change_come('+json.student_list[i].stu_id+')">'+
                                     '<div'+ str + '</div>'
                                     +'</a></td>'
                             +'</tr>');
+        }
+        
         $('tbody').append(nameANDhere);
     }
 }
@@ -30,7 +42,10 @@ function force_change_come(id)
 {
     socket.emit('force_change_Come', {'stu_id':id, "class_id":json._id});
     var  come = $('#'+id+' td a').html();
-    if ((come === "有到"))
+    if (come === '<div>有到</div>') {
+         $('#'+id+' td a').html('未到');
+    }
+    else if (come === "有到")
     {
         $('#'+id+' td a').html('未到');
         $('#'+id+' td a').css({

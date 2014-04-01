@@ -36,6 +36,7 @@ exports.new_class = function (data, callback) {
 };
 exports.lock_student = function(data){//class_id, stu_id
 	var currentClass = classTable[data.class_id];
+	console.log('lock_student '+data.class_id);
 	for (var i = currentClass.student_list.length - 1; i >= 0; i--) {
 		if(currentClass.student_list[i].stu_id == data.stu_id){
 			currentClass.student_list[i].lock = true;
@@ -52,7 +53,9 @@ exports.lock_student = function(data){//class_id, stu_id
 			var query = {_id:currentClass._id, 'student_list.stu_id':data.stu_id};
 			var update = {$set:{'student_list.$.come':newCome,
 								'student_list.$.lock':true}};
-			ClassHistory.update(query, update, function(){});
+			ClassHistory.update(query, update, function(err, result){
+				console.log('update'+result.student_list);
+			});
 			break;
 		}
 	}
@@ -74,6 +77,7 @@ exports.come = function(data, isCome,callback) {
 	var currentClass = classTable[data.class_id],
 		returnString = 'ok';
 	if (currentClass == null){
+		console.log('currentClass is null');
 		ClassHistory.findOne({_id:data.class_id}, function(err, result){
 			if (result) {
 				classTable[data.class_id] = result;
@@ -84,29 +88,36 @@ exports.come = function(data, isCome,callback) {
 			}else{
 				callback('id_wrong');
 			}
-			
 		});
 	}
 	else if(currentClass.lock === true){
+		console.log('lock!!!!!');
 							callback('lock');
 
 	}
 	else{
+		console.log('save');
 		action_new();
-
 	}
+
 	function action_new(){
-			for (var i = currentClass.student_list.length - 1; i >= 0; i--) {
-				if(currentClass.student_list[i].lock === false&&currentClass.student_list[i].stu_id === data.stu_id) {
+		for (var i = currentClass.student_list.length - 1; i >= 0; i--) {
+			if(currentClass.student_list[i].stu_id === data.stu_id){
+				console.log('out '+JSON.stringify(currentClass.student_list[i]));
+
+				if(currentClass.student_list[i].lock === false) {
+					console.log('in '+JSON.stringify(currentClass.student_list[i]));
 					currentClass.student_list[i].come = 'true';
-					returnString = 'ok';
+					var query = {_id:currentClass._id, 'student_list.stu_id':data.stu_id};
+					var update = {$set:{'student_list.$.come':isCome}};
+					ClassHistory.update(query, update, function(){});
+					callback('ok');
+					break;
 				}
 			}
-			var query = {_id:currentClass._id, 'student_list.stu_id':data.stu_id};
-			var update = {$set:{'student_list.$.come':isCome}};
-			ClassHistory.update(query, update, function(){});
-			callback(returnString);
 		}
+		callback('lock');	
+	}
 };
 
 exports.class_list = function(callback) {
