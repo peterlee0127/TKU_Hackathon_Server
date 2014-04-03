@@ -2,7 +2,7 @@
 <html>
     <head lang="en">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <title>Main Page</title>
+        <title>登入頁面</title>
         <!--Add local css-->
         <link href="./stylesheets/login.css" type="text/css" rel="stylesheet">
         <!--Add jQuery-->
@@ -19,13 +19,13 @@
             <div class="header_bot"></div>
             <form class="login_form form-horizontal" role="form" method="POST" action="/api/login">
                 <div class="form-group">
-                    <label for="inputEmail3" class="col-sm-2 control-label">Email</label>
+                    <label for="inputEmail3" class="col-sm-2 control-label">學號/帳號</label>
                     <div class="col-sm-8">
                         <input type="email" name="email" class="form-control" id="inputEmail3" placeholder="Email">
                     </div>
                 </div>
                 <div class="form-group">
-                    <label for="inputPassword3" class="col-sm-2 control-label">Password</label>
+                    <label for="inputPassword3" class="col-sm-2 control-label">密碼</label>
                     <div class="col-sm-8">
                         <input type="password" class="form-control" id="inputPassword3" placeholder="Password">
                     </div>
@@ -50,18 +50,3 @@
         </div>
     </body>
 </html>
-
-
-<!--<div class="container">
-
-      <form class="form-signin" role="form" method="post" action="checkUser">
-        <h2 class="form-signin-heading">Please sign in</h2>
-        <input type="email" name="email" class="form-control" placeholder="Email address" required="" autofocus="">
-        <input type="password" name="password" class="form-control" placeholder="Password" required="">
-        <label class="checkbox">
-          <input type="checkbox" value="remember-me"> Remember me
-        </label>
-        <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
-      </form>
-
-    </div> -->

@@ -2,7 +2,7 @@
 <html>
     <head lang="en">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <title>Main Page</title>
+        <title>課程管理</title>
         <!--Add local css-->
         <link href="/stylesheets/style.css" type="text/css" rel="stylesheet">
         <!--Add jQuery-->
@@ -16,7 +16,7 @@
     <body>
         <div class="wrapper">
             <div class="header_style"></div>
-            
+
             <!--navigationbar-->
             <nav class="navbar navbar-static-top navbar_style" role="navigation">
             	<div class="navbar-header">
@@ -37,7 +37,7 @@
                 	</ul>
     			</div>
             </nav>
-            
+
             <!--chatbar & chartbar-->
             <section>
                 <div class="middle_container">
@@ -51,7 +51,7 @@
                                 </div>
                                 <div class="panel-body chat_box" id="chat_box_outer">
                                     <ul class="chat_box_inner" id="ListenChat">
-                                        
+
                                     </ul>
                                 </div>
                                 <div class="panel-footer chat_message_input">
@@ -72,7 +72,7 @@
 <!--                    </div>-->
                 </div>
             </section>
-            
+
             <!--dataTable-->
             <section>
                 <div class="table_container">
@@ -89,7 +89,7 @@
                     </table>
                 </div>
             </section>
-            
+
             <!--footer-->
             <div class="footer"></div>
         </div>
@@ -118,7 +118,7 @@
 					var text = $('#btn-input').val();
 
                 socket.emit('chat', {"class_id":json._id, 'stu_id':'admin', 'message': text});
-                
+
 
                 var e = $('<li class="my_chat">'+
                             '<div class="chat-body clearfix">'+
@@ -131,7 +131,7 @@
                                 '<p>'+text+'</p>'+
                             '</div>'+
                         '</li>');
-                $('#ListenChat').append(e);	
+                $('#ListenChat').append(e);
 					$('#btn-input:text').val('');
 				   $("#btn-input:text").focus();
 				var objDiv = document.getElementById("chat_box_outer");

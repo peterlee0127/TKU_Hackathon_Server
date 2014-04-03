@@ -2,7 +2,7 @@
 <html>
     <head lang="en">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <title>Main Page</title>
+        <title>課程管理</title>
         <!--Add local css-->
         <link href="./stylesheets/newClass.css" type="text/css" rel="stylesheet">
         <!--Add jQuery-->
@@ -21,9 +21,9 @@
                 <table class="class_table table table-condensed">
                     <thead>
                         <tr class="class_table_header">
-                            <th>class_name</th>
-                            <th>class_room</th>
-                            <th>class_time</th>
+                            <th>課程名稱</th>
+                            <th>地點(教室)</th>
+                            <th>課程時間</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -37,7 +37,7 @@
                     <input id="room" type="text" class="form-control input-sm" placeholder="class_room" style="width:33.2%">
                     <input id="time" type="text" class="form-control input-sm" placeholder="class_time" style="width:33.2%">
                     <span class="input-group-btn">
-                    <button class="btn btn-warning btn-sm" id="btn-chat" onclick="do_POST()">Send</button>
+                    <button class="btn btn-warning btn-sm" id="btn-chat" onclick="do_POST()">送出</button>
                     </span>
                 </div>
             </div>

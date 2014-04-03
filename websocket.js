@@ -37,7 +37,7 @@ exports.connect = function (io, socket) {
 					'class_id':obj.class_id
 				});
 			}
-			
+
 		});
 	});
 	socket.on('one_vote_result', function(obj){

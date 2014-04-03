@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>client test</title>
+	<title>學生模擬</title>
 	<script src="/javascripts/socket.io.min.js"></script>
 	<script type="text/javascript">
 	var id = '<%= id%>';
@@ -14,8 +14,10 @@
 		// socket.emit('chat', {stu_id:"499410743", message:"haha"})
 	});
 	socket.on('addme_res', function(obj){
+
 	});
 	socket.on('start_vote', function(obj){
+
 	});
 	function send_vote (form) {
 		for (Count = 0; Count < 4; Count++) {
@@ -36,7 +38,7 @@
 </head>
 <body>
 <form>
-投票<br>
+	投票<br>
     <input  type="radio" name="vote" value="A">A
     <input  type="radio" name="vote" value="B">B
     <input  type="radio" name="vote" value="C">C
