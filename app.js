@@ -10,7 +10,7 @@ var express = require('express')
   , user = require('./routes/user')
   , http = require('http')
   , path = require('path');
- var MongoStore = require('connect-mongo')(express);
+// var MongoStore = require('connect-mongo')(express);
 
 
 var app = express();
@@ -21,7 +21,7 @@ app.set('views', __dirname + '/views');
 app.set('view engine', 'ejs');
 // app.use(express.logger('dev'));
 app.use(express.cookieParser());
-
+/*
  app.use(express.session({
  		secret: '1234567890TY',
  		cookie  : {
@@ -32,6 +32,7 @@ app.use(express.cookieParser());
  				clear_interval : 3600
  		})
  }));
+*/
 app.use(express.json());
 app.use(express.urlencoded());
 app.use(express.methodOverride());

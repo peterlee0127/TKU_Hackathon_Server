@@ -14,11 +14,13 @@ exports.connect = function (io, socket) {
 	});
 
 	socket.on('disconnect', function(){
-		if (user_socket_table.hasOwnProperty(socket.id)&& user_socket_table[socket.id].hasOwnProperty('class_id') ) {
-			classController.come(user_socket_table[socket.id],false, function(string){
-			if (string !== 'lock')
-				socket.broadcast.to(user_socket_table[socket.id].class_id).emit('not_come',user_socket_table[socket.id]);
-			});
+		if (user_socket_table.hasOwnProperty(socket.id) && user_socket_table[socket.id].hasOwnProperty('class_id') )
+		{
+				classController.come(user_socket_table[socket.id],false, function(string)
+				{
+						if (string !== 'lock')
+								socket.broadcast.to(user_socket_table[socket.id].class_id).emit('not_come',user_socket_table[socket.id]);
+				});
 		}
 	});
 
